@@ -9,6 +9,13 @@ import mixins from '../../../node_modules//vuetify/lib/util/mixins.js';
 export default mixins(Loadable, Routable, VSheet).extend({
   name: 'OCMSheet',
   extends: VCard,
+    data: ()=>{
+      return{
+        /*Contains information of all element on the docuemnt*/
+        /*Sorted by the y position and then x position by ascending order*/
+        pageData:[]
+      }
+    },
     props: {
     width:String,
     height:String,
@@ -53,16 +60,18 @@ export default mixins(Loadable, Routable, VSheet).extend({
   methods: {
     clickEvent(e){
       console.log(e)
+      console.log(this)
+      this.genInputField(e.clientX-this.$el.offsetLeft,e.clientY-this.$el.offsetTop)
+    },
+    genInputField(x,y){
+      console.log(x,y)
+      var input = this.$createElement('input',{},)
+      this.$children.push(input)
     },
     genProgress() {
       const render = Loadable.options.methods.genProgress.call(this);
       if (!render) return null;
-      return this.$createElement('divvvv', {
-        on: {
-          onClick: function() {
-            alert('click');
-          }
-        },
+      return this.$createElement('div', {
         staticClass: 'v-card__progress',
         key: 'progress'
       }, [render]);
@@ -84,10 +93,9 @@ export default mixins(Loadable, Routable, VSheet).extend({
     }
 
     var renderObj = h(tag, this.setBackgroundColor(this.color, data), [this.genProgress(), this.$slots.default]);
-    console.log(renderObj)
-    //renderObj.addEventListener('click', this.clickEvent)
     renderObj.data.style["min-height"]=this.height+"px"
     renderObj.data.style["min-width"]=this.width+"px"
+    renderObj.data.on["click"]=this.clickEvent
     return renderObj
   }
 })
