@@ -8,16 +8,18 @@ import vuetify from './plugins/vuetify'
 
 import VueHotkey from 'v-hotkey'
 Vue.use(VueHotkey)
+Vue.use(VueRouter);
+
+Vue.use(VueLocalStorage);
+Vue.use(VueLocalStorage, {name: "ls",bind: true,});
+Vue.prototype.localStorage = VueLocalStorage;
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
-Vue.use(VueLocalStorage);
-Vue.prototype.localStorage = VueLocalStorage;
-Vue.use(VueRouter);
-Vue.use(VueLocalStorage, {
-  name: "ls",
-  bind: true,
-});
+
+import OCMSheet from './components/Custom/OCMSheet.vue'
+Vue.component('ocm-sheet', OCMSheet)
+
 
 
 Vue.prototype.$t = function(key,...params) {

@@ -1,15 +1,19 @@
-<template >
-  <v-app id="app">
-    <topbar></topbar>
+<template lang="pug">
+  v-app(id="app")
+    topbar
+    documents
+
+
     
   </v-app>
 </template>
 
 <script>
 import topbar from "./components/UI/Topbar.vue";
+import documents from "./components/UI/Document/documents.vue";
 
 export default {
-  components: {  topbar },
+  components: {  topbar,documents },
   data: () => ({
 
   }),
@@ -17,7 +21,7 @@ export default {
     source: String,
   },
   created() {
-      // eslint-disable-next-line no-unused-vars
+
   },
   mounted() {
 
@@ -32,8 +36,9 @@ export default {
 </script>
 
 
-<style scoped>
-v-menu__content theme--light v-menu__content--fixed {
-  z-index: 99;
-}
+<style lang="scss" scoped>
+//width should be a multiple of 16+1
+
+
+
 </style>
