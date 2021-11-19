@@ -1,7 +1,7 @@
 <template lang="pug">
 div.container
-  ocm-sheet(width=600,height=800,)
-    | Open MCad
+  omc-sheet(width=600,height=800,)
+    omc-input
 </template>
 
 <script>

@@ -17,7 +17,11 @@ export default mixins(Loadable, Routable, VSheet).extend({
       return{
         /*Contains information of all element on the docuemnt*/
         /*Sorted by the y position and then x position by ascending order*/
-        pageData:[]
+        pageData:[],
+        cursorPos:{
+          x:null,
+          y:null
+        }
       }
     },
     props: {
@@ -45,34 +49,19 @@ export default mixins(Loadable, Routable, VSheet).extend({
         'v-card--disabled': this.disabled,
         'v-card--raised': this.raised,
         'paper':true,
+        'draggable':true,
         ...VSheet.options.computed.classes.call(this)
       };
     },
-
-    styles() {
-      const style = { ...VSheet.options.computed.styles.call(this)
-      };
-
-      if (this.img) {
-        style.background = `url("${this.img}") center center / cover no-repeat`;
-      }
-
-      return style;
-    }
-
   },
   methods: {
     clickEvent(e){
       console.log(e)
-      console.log(this)
-      var input = this.genInputField(e.clientX-this.$el.offsetLeft,e.clientY-this.$el.offsetTop)
-      this.pageData.push(input)
+      alert('Cursor Pos :\nx:'+(e.clientX-this.$el.offsetLeft)+"\ny:"+(e.clientY-this.$el.offsetTop))
+      //e.clientX-this.$el.offsetLeft
+      //e.clientY-this.$el.offsetTop
     },
     //somehow render this input field inside the ocm-sheet
-    genInputField(x,y){
-      console.log(x,y)
-
-    },
     genProgress() {
       const render = Loadable.options.methods.genProgress.call(this);
       if (!render) return null;
@@ -85,16 +74,13 @@ export default mixins(Loadable, Routable, VSheet).extend({
       this.$forceUpdate()
     },
     renderContent(h){
-     return [h('draggable',  {
-        staticClass: 'v-input',
-        class: this.classes
-     }, 'dddddddddddddddddddddddddddd')]
-  }
+      console.log(h)
+    }
   },
 
   render(h) {
-    console.log('render')
-    const {
+    tag='draggable'
+    var {
       tag,
       data
     } = this.generateRouteLink();
@@ -104,6 +90,7 @@ export default mixins(Loadable, Routable, VSheet).extend({
       data.attrs = data.attrs || {};
       data.attrs.tabindex = 0;
     }
+    console.log(tag)
     var renderObj = h(tag, this.setBackgroundColor(this.color, data), [this.genProgress(), this.$slots.default]);
     renderObj.data.style["min-height"]=this.height+"px"
     renderObj.data.style["min-width"]=this.width+"px"

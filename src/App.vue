@@ -2,7 +2,7 @@
   v-app(id="app")
     topbar
     documents
-
+    omc-input
 
     
   </v-app>

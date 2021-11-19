@@ -17,8 +17,10 @@ Vue.prototype.localStorage = VueLocalStorage;
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
 
-import OCMSheet from './components/Custom/OCMSheet.vue'
-Vue.component('ocm-sheet', OCMSheet)
+import OMCSheet from './components/Custom/OCMSheet.vue'
+import OMCInput from './components/Custom/OMCInput.vue'
+Vue.component('omc-sheet', OMCSheet)
+Vue.component('omc-input', OMCInput)
 
 
 
