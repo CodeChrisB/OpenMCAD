@@ -6,9 +6,13 @@ import VSheet from '../../../node_modules/vuetify/lib/components/VSheet'; // Mix
 import Loadable from '../../../node_modules/vuetify/lib/mixins/loadable/index.js';
 import Routable from '../../../node_modules/vuetify/lib/mixins/routable/index.js'; // Helpers
 import mixins from '../../../node_modules//vuetify/lib/util/mixins.js';
+
+import draggable from 'vuedraggable'
+
 export default mixins(Loadable, Routable, VSheet).extend({
   name: 'OCMSheet',
   extends: VCard,
+  components:{draggable},
     data: ()=>{
       return{
         /*Contains information of all element on the docuemnt*/
@@ -61,26 +65,35 @@ export default mixins(Loadable, Routable, VSheet).extend({
     clickEvent(e){
       console.log(e)
       console.log(this)
-      this.genInputField(e.clientX-this.$el.offsetLeft,e.clientY-this.$el.offsetTop)
+      var input = this.genInputField(e.clientX-this.$el.offsetLeft,e.clientY-this.$el.offsetTop)
+      this.pageData.push(input)
     },
+    //somehow render this input field inside the ocm-sheet
     genInputField(x,y){
       console.log(x,y)
-      var input = this.$createElement('input',{},)
-      this.$children.push(input)
+
     },
     genProgress() {
       const render = Loadable.options.methods.genProgress.call(this);
       if (!render) return null;
-      return this.$createElement('div', {
+      return this.$createElement('draggable', {
         staticClass: 'v-card__progress',
         key: 'progress'
       }, [render]);
     },
-    
-
+    reload(){
+      this.$forceUpdate()
+    },
+    renderContent(h){
+     return [h('draggable',  {
+        staticClass: 'v-input',
+        class: this.classes
+     }, 'dddddddddddddddddddddddddddd')]
+  }
   },
 
   render(h) {
+    console.log('render')
     const {
       tag,
       data
@@ -91,14 +104,18 @@ export default mixins(Loadable, Routable, VSheet).extend({
       data.attrs = data.attrs || {};
       data.attrs.tabindex = 0;
     }
-
     var renderObj = h(tag, this.setBackgroundColor(this.color, data), [this.genProgress(), this.$slots.default]);
     renderObj.data.style["min-height"]=this.height+"px"
     renderObj.data.style["min-width"]=this.width+"px"
     renderObj.data.on["click"]=this.clickEvent
+
+    renderObj.children = this.renderContent(h)
     return renderObj
   }
 })
+
+
+
 
 </script>
 
